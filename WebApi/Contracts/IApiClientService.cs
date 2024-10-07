@@ -1,10 +1,14 @@
+using WebApi.DDL.DbModels;
+
 namespace WebApi.Contracts;
 
 public interface IApiClientService
 {
-    Object GetTopicInfo(string url);
+    Task<List<News>> FetchNewsAsync();
     
-    List<Object> GetPopularNewsByDate(string url, DateTime initialDate, DateTime finalDate);
+    List<Task<News>> GetNewsByDate(string url, DateTime initialDate, DateTime finalDate);
+    
+    List<Task<News>> GetPopularNews(string url, DateTime initialDate, DateTime finalDate);
 
-    List<Object> GetNewsByText(string url, string searchText);
+    List<Task<News>> GetNewsByText(string url, string searchText);
 }

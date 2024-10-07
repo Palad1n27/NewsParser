@@ -1,13 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "uWG+XmAtFg1y6A25R/jD8OKfzPVFXkYM30eBjlrGLSe+4umFh+LRdbBxgKB9Ls47BX9cxm6udDtNBG4DMfdVYw==",
+  "dgSpecHash": "UtoViEcYOgXASr0YUJtODcdg/bn5ghdLFbm5IY9EtI1esY2lJ4Ny4lbLXJMHQCrIQSciLmI02b96Q2Ob5Sk3fg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Robert\\Desktop\\Programming\\Projects\\NewsParser\\WebApi\\WebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Robert\\.nuget\\packages\\dapper\\2.1.35\\dapper.2.1.35.nupkg.sha512",
     "C:\\Users\\Robert\\.nuget\\packages\\microsoft.aspnetcore.openapi\\8.0.3\\microsoft.aspnetcore.openapi.8.0.3.nupkg.sha512",
     "C:\\Users\\Robert\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\Robert\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\Robert\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\Robert\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",
+    "C:\\Users\\Robert\\.nuget\\packages\\npgsql\\8.0.4\\npgsql.8.0.4.nupkg.sha512",
     "C:\\Users\\Robert\\.nuget\\packages\\swashbuckle.aspnetcore\\6.4.0\\swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
     "C:\\Users\\Robert\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
     "C:\\Users\\Robert\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.4.0\\swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",

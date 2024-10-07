@@ -3,9 +3,9 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.52">
     <root id="1">
       <DateStyle>dmy</DateStyle>
-      <IntrospectionStateNumber>4006</IntrospectionStateNumber>
+      <IntrospectionStateNumber>4030</IntrospectionStateNumber>
       <ServerVersion>16.2</ServerVersion>
-      <StartupTime>1728211040</StartupTime>
+      <StartupTime>1728291100</StartupTime>
       <TimeZones>true ACDT
 true ACSST
 false ACST
@@ -804,7 +804,7 @@ false Zulu
 14643||10|C|G
 14643||-9223372036854775808|U|G
 14643||10|U|G</Grants>
-      <IntrospectionStateNumber>4006</IntrospectionStateNumber>
+      <IntrospectionStateNumber>4030</IntrospectionStateNumber>
       <ObjectId>57982</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -4276,92 +4276,38 @@ false Zulu
     <schema id="277" parent="3" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>4006</IntrospectionStateNumber>
-      <LastIntrospectionLocalTimestamp>2024-10-06.13:10:03</LastIntrospectionLocalTimestamp>
+      <IntrospectionStateNumber>4030</IntrospectionStateNumber>
+      <LastIntrospectionLocalTimestamp>2024-10-07.12:54:21</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
       <StateNumber>524</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
     </schema>
-    <table id="278" parent="277" name="contents">
-      <ObjectId>57998</ObjectId>
-      <StateNumber>4004</StateNumber>
-      <AccessMethodId>2</AccessMethodId>
-      <OwnerName>postgres</OwnerName>
-    </table>
-    <table id="279" parent="277" name="news_source">
+    <table id="278" parent="277" name="news_source">
       <ObjectId>57983</ObjectId>
       <StateNumber>4000</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
-    <table id="280" parent="277" name="topics">
+    <table id="279" parent="277" name="posts">
       <ObjectId>57988</ObjectId>
-      <StateNumber>4000</StateNumber>
+      <StateNumber>4029</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
-    <column id="281" parent="278" name="id">
-      <DasType>varchar(32)|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-      <StateNumber>4004</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="282" parent="278" name="topic_id">
-      <DasType>varchar(32)|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-      <StateNumber>4004</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="283" parent="278" name="content">
-      <DasType>text|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>3</Position>
-      <StateNumber>4004</StateNumber>
-      <TypeId>25</TypeId>
-    </column>
-    <foreign-key id="284" parent="278" name="contents_topic_id_fkey">
-      <ColNames>topic_id</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>58005</ObjectId>
-      <StateNumber>4004</StateNumber>
-      <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>57988</RefTableId>
-    </foreign-key>
-    <index id="285" parent="278" name="contents_pkey">
-      <ColNames>id</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>58003</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>4004</StateNumber>
-      <Unique>1</Unique>
-      <AccessMethodId>403</AccessMethodId>
-      <CollationNames>default</CollationNames>
-      <CollationIds>100</CollationIds>
-      <CollationParentNames>pg_catalog</CollationParentNames>
-    </index>
-    <key id="286" parent="278" name="contents_pkey">
-      <NameSurrogate>1</NameSurrogate>
-      <ObjectId>58004</ObjectId>
-      <Primary>1</Primary>
-      <StateNumber>4004</StateNumber>
-      <UnderlyingIndexId>58003</UnderlyingIndexId>
-    </key>
-    <column id="287" parent="279" name="id">
+    <column id="280" parent="278" name="id">
       <DasType>varchar(32)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>3997</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="288" parent="279" name="news_link">
+    <column id="281" parent="278" name="news_link">
       <DasType>varchar(256)|0s</DasType>
       <Position>2</Position>
       <StateNumber>3997</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="289" parent="279" name="news_source_pkey">
+    <index id="282" parent="278" name="news_source_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>57986</ObjectId>
@@ -4373,52 +4319,56 @@ false Zulu
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="290" parent="279" name="news_source_pkey">
+    <key id="283" parent="278" name="news_source_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>57987</ObjectId>
       <Primary>1</Primary>
       <StateNumber>3997</StateNumber>
       <UnderlyingIndexId>57986</UnderlyingIndexId>
     </key>
-    <column id="291" parent="280" name="id">
+    <column id="284" parent="279" name="id">
       <DasType>varchar(32)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>4000</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="292" parent="280" name="source_id">
+    <column id="285" parent="279" name="source_id">
       <DasType>varchar(32)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>4000</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="293" parent="280" name="name">
+    <column id="286" parent="279" name="name">
       <DasType>varchar(256)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>4000</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="294" parent="280" name="creation_date">
+    <column id="287" parent="279" name="creation_date">
       <DasType>timestamp|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>4000</StateNumber>
       <TypeId>1114</TypeId>
     </column>
-    <foreign-key id="295" parent="280" name="topics_source_id_fkey">
+    <column id="288" parent="279" name="content">
+      <DasType>varchar(2048)|0s</DasType>
+      <Position>5</Position>
+      <StateNumber>4029</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <foreign-key id="289" parent="279" name="topics_source_id_fkey">
       <ColNames>source_id</ColNames>
-      <NameSurrogate>1</NameSurrogate>
       <ObjectId>57993</ObjectId>
       <StateNumber>4000</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>57983</RefTableId>
     </foreign-key>
-    <index id="296" parent="280" name="topics_pkey">
+    <index id="290" parent="279" name="topics_pkey">
       <ColNames>id</ColNames>
-      <NameSurrogate>1</NameSurrogate>
       <ObjectId>57991</ObjectId>
       <Primary>1</Primary>
       <StateNumber>4000</StateNumber>
@@ -4428,8 +4378,7 @@ false Zulu
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="297" parent="280" name="topics_pkey">
-      <NameSurrogate>1</NameSurrogate>
+    <key id="291" parent="279" name="topics_pkey">
       <ObjectId>57992</ObjectId>
       <Primary>1</Primary>
       <StateNumber>4000</StateNumber>
