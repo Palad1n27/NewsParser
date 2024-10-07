@@ -7,36 +7,24 @@ namespace WebApi.Services;
 public class ApiClientService : IApiClientService
 {
     private readonly HttpClient _client = new();
-    private readonly DbContext _dbContext;
 
-    public ApiClientService(DbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
 
     public async Task<List<News>> FetchNewsAsync()
     {
-        var links = new List<string>();
-        string[] themes = {"china", "americans", "asia", "world", "united-kingdom"};
+        string[] themes = { "china", "americans", "asia", "world", "united-kingdom" };
 
+        var theme = themes[new Random().Next(0, 5)];
+        var links = await GetPostLinks("https://edition.cnn.com/" + "world");
         var newsList = new List<News>();
-        for (int i = 0; i < themes.Length; i++)
-        {
-            var linksFromTheme = await GetPostLinks(themes[i]);
-            for (int j = 0; j < linksFromTheme.Count; j++)
-            {
-                links.Add(linksFromTheme[j]);
-            }
-        }
-        for (int i = 0; i < links.Count; i++)
+
+        for (var i = 0; i < links.Count; i++)
         {
             var news = await ParseWebPage(links[i]);
             newsList.Add(news);
-            await _dbContext.PostNewsAsync(news);
         }
+
         return newsList;
     }
-
 
     public List<Task<News>> GetNewsByDate(string url, DateTime initialDate, DateTime finalDate)
     {
@@ -53,16 +41,17 @@ public class ApiClientService : IApiClientService
         throw new NotImplementedException();
     }
 
-    public async Task<News> ParseWebPage(string html)
+    public async Task<News> ParseWebPage(string link) 
     {
+        var responseMessage = await _client.GetAsync("https://edition.cnn.com" + link);
+        
+        var stringDate = link.Substring(1, 10);
+        var creationDate = DateTime.Parse(stringDate);
+        
+        var html = await responseMessage.Content.ReadAsStringAsync();
         var titlePattern = @"<title>(.*?)<\/title>";
-        var bodyPattern =
-            @"<div class=""article__content-container"">.*?<div class=""article__content""[^>]*>(.*?)<\/div>\s*<\/div>";
+        var bodyPattern = @"<div class=""article__content-container"">.*?<div class=""article__content""[^>]*>(.*?)<\/div>\s*<\/div>";
         var clearPattern = @"<[^>]+>|<!--.*?-->";
-        var datePattern = @"Published\s+(\d{1,2}:\d{2}\s[APM]{2}\s\w{3},\s\d{1,2}\s\w+\s\d{4})";
-
-        var dateMatch = Regex.Match(html, datePattern, RegexOptions.IgnoreCase);
-        var createdDateTime = DateTime.Today;
 
         var titleMatch = Regex.Match(html, titlePattern, RegexOptions.IgnoreCase);
         var clearedTitle = titleMatch.Success
@@ -80,23 +69,16 @@ public class ApiClientService : IApiClientService
             results.Add(paragraphText);
         }
 
-        if (dateMatch.Success)
-        {
-            var dateString = dateMatch.Groups[1].Value.Trim();
-            dateString = dateString.Replace("Published", "").Trim();
-
-            if (DateTime.TryParse(dateString, out var parsedDate)) createdDateTime = parsedDate;
-        }
-
         var clearedBody = string.Join(" ", results);
         clearedBody = Regex.Replace(clearedBody, @"^CNN\s*&nbsp;&mdash;&nbsp;", string.Empty);
         clearedBody = Regex.Replace(clearedBody, @"\s+", " ").Trim();
-
+        
+        
         return new News
         {
             Title = clearedTitle,
             Content = clearedBody,
-            CreationDateTime = createdDateTime
+            CreationDateTime = creationDate
         };
     }
 
@@ -104,16 +86,23 @@ public class ApiClientService : IApiClientService
     {
         var response = await _client.GetAsync(link);
         var stringResponse = await response.Content.ReadAsStringAsync();
-        
-        var linkRegex = new Regex(@"<a[^>]*href=""(.*?)""[^>]*>", RegexOptions.IgnoreCase);
-        MatchCollection linkCollections = linkRegex.Matches(stringResponse);
 
-        List<string> extractedLinks = new List<string>();
-        
+        // Updated regular expression to allow flexible matching of the classes
+        var linkPattern = @"<a\s+href=""([^""]+)""\s+class=""[^""]*container__link[^""]*""";
+
+        var linkCollections =
+            Regex.Matches(stringResponse, linkPattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+        var extractedLinks = new List<string>();
+
         foreach (Match match in linkCollections)
         {
-            string extractedLink = match.Groups[1].Value;
-            extractedLinks.Add(extractedLink);
+            var extractedLink = match.Groups[1].Value.Trim();
+
+            if (!extractedLinks.Contains(extractedLink) && extractedLink[1] == '2' && extractedLink[2] == '0')
+                extractedLinks.Add(extractedLink);
+            if (extractedLinks.Count >= 30)
+                break;
         }
 
         return extractedLinks;
