@@ -1,13 +1,18 @@
 using System.Text.RegularExpressions;
-using WebApi.Contracts;
+using Application.Contracts;
+using Infrastructure.Contracts;
 using WebApi.DDL.DbModels;
 
-namespace WebApi.Services;
+namespace Application.Services;
 
-public class ApiClientService : IApiClientService
+public class CnnNewsService : IApiNewsService
 {
     private readonly HttpClient _client = new();
-
+    private readonly IDbContext _context;
+    public CnnNewsService(IDbContext context)
+    {
+        _context = context;
+    }
 
     public async Task<List<News>> FetchNewsAsync()
     {
@@ -26,12 +31,12 @@ public class ApiClientService : IApiClientService
         return newsList;
     }
 
-    public List<Task<News>> GetNewsByDate(string url, DateTime initialDate, DateTime finalDate)
+    public async Task<IEnumerable<News>> GetNewsByDate(string url, DateTime initialDate, DateTime finalDate)
     {
-        throw new NotImplementedException();
+        return await _context.GetNewsListByDate(initialDate,finalDate);
     }
 
-    public List<Task<News>> GetPopularNews(string url, DateTime initialDate, DateTime finalDate)
+    public List<Task<News>> GetPopularWordsInNews(string url, DateTime initialDate, DateTime finalDate)
     {
         throw new NotImplementedException();
     }
@@ -86,8 +91,7 @@ public class ApiClientService : IApiClientService
     {
         var response = await _client.GetAsync(link);
         var stringResponse = await response.Content.ReadAsStringAsync();
-
-        // Updated regular expression to allow flexible matching of the classes
+        
         var linkPattern = @"<a\s+href=""([^""]+)""\s+class=""[^""]*container__link[^""]*""";
 
         var linkCollections =

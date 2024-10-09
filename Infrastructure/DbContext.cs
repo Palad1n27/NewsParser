@@ -1,9 +1,9 @@
 using Dapper;
+using Infrastructure.Contracts;
 using Npgsql;
-using WebApi.Contracts;
 using WebApi.DDL.DbModels;
 
-namespace WebApi.Services;
+namespace Infrastructure;
 
 public class DbContext : IDbContext
 {
@@ -18,12 +18,15 @@ public class DbContext : IDbContext
         throw new NotImplementedException();
     }
 
-    public Task<List<News>> GetNewsListByDate(DateTime initial, DateTime final)
+    public async Task<IEnumerable<News>> GetNewsListByDate(DateTime initial, DateTime final)
     {
-        throw new NotImplementedException();
+        string query = $@"select id, name, creation_date, content from posts
+                                        where creation_date >= @Initial and creation_date <= @Final";
+
+        return await _connection.QueryAsync<News>(query, new{Initial = initial, Final = final});
     }
 
-    public Task<List<string>> GetTopicsByDate(string newsName)
+    public Task<List<string>> GetPopularWordsInNews(string newsName)
     {
         throw new NotImplementedException();
     }

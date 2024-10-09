@@ -34,3 +34,9 @@ C:\Users\Robert\Desktop\Programming\Projects\NewsParser\WebApi\obj\Debug\net8.0\
 C:\Users\Robert\Desktop\Programming\Projects\NewsParser\WebApi\obj\Debug\net8.0\WebApi.genruntimeconfig.cache
 C:\Users\Robert\Desktop\Programming\Projects\NewsParser\WebApi\obj\Debug\net8.0\ref\WebApi.dll
 C:\Users\Robert\Desktop\Programming\Projects\NewsParser\WebApi\bin\Debug\net8.0\Npgsql.dll
+C:\Users\Robert\Desktop\Programming\Projects\NewsParser\WebApi\bin\Debug\net8.0\Application.dll
+C:\Users\Robert\Desktop\Programming\Projects\NewsParser\WebApi\bin\Debug\net8.0\Domain.dll
+C:\Users\Robert\Desktop\Programming\Projects\NewsParser\WebApi\bin\Debug\net8.0\Infrastructure.dll
+C:\Users\Robert\Desktop\Programming\Projects\NewsParser\WebApi\bin\Debug\net8.0\Application.pdb
+C:\Users\Robert\Desktop\Programming\Projects\NewsParser\WebApi\bin\Debug\net8.0\Domain.pdb
+C:\Users\Robert\Desktop\Programming\Projects\NewsParser\WebApi\bin\Debug\net8.0\Infrastructure.pdb

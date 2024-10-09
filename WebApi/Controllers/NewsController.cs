@@ -1,5 +1,5 @@
+using Application.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Contracts;
 using WebApi.DDL.DbModels;
 
 namespace WebApi.Controllers;
@@ -8,18 +8,11 @@ namespace WebApi.Controllers;
 [Route("[controller]/[action]")]
 public class TopicController : Controller
 {
-    private readonly IApiClientService _apiClientService;
+    private readonly IApiNewsService _apiNewsService;
 
-    public TopicController(IApiClientService apiClientService)
+    public TopicController(IApiNewsService apiNewsService)
     {
-        _apiClientService = apiClientService;
+        _apiNewsService = apiNewsService;
     }
-
-
-    [HttpGet]
-    [ActionName("GetSortedByDate")]
-    public async Task<ActionResult<List<News>>> GetTopics()
-    {
-        return await _apiClientService.FetchNewsAsync();
-    }
+    
 }

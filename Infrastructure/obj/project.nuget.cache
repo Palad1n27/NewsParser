@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "VEm/mL2XHXm4dMhXKrIMKtzKdBhtWxjUHSiGBYX67rchTJ/LPXjoHpL3a63ZFD3qB4TG92bU9p9KmywXCu8fVQ==",
+  "dgSpecHash": "9bL9HrNtY2DbPYjw5ddZrP7AJqCoVR4V/gDcxE8yrIVNifLqnFUykMT8sR2BNzn/90R5ON6QZxRG/syEbcLc3Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\Robert\\Desktop\\Programming\\Projects\\NewsParser\\Infrastructure\\Infrastructure.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Robert\\.nuget\\packages\\dapper\\2.1.35\\dapper.2.1.35.nupkg.sha512",
     "C:\\Users\\Robert\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\Robert\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\Robert\\.nuget\\packages\\npgsql\\8.0.4\\npgsql.8.0.4.nupkg.sha512"
