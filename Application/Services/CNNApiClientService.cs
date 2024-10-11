@@ -37,9 +37,49 @@ public class CnnNewsService : IApiNewsService
         return await _context.GetNewsListByDateAsync(initialDate,finalDate);
     }
 
-    public Task<List<Post>> GetPopularWordsInNews( )
+    public async Task<List<string>> GetPopularWordsInNews()
     {
-        throw new NotImplementedException();
+
+        var posts = await _context.GetAllPosts();
+        var allWordsScoring = new List<ScoredWord>();
+        var top10Words = new List<string>();
+        var symbols = new List<string>
+        {
+            ",", ".", "/", "!", "#", "{", "}", "(", ")", "_", "-", "—", ";", ":"
+        };
+        foreach (var post in posts)
+        {
+            var content = post.Content;
+
+            foreach (var symbol in symbols)
+            {
+               content = content.Replace(symbol, " ");
+            }
+
+            var splitedWordsInPost = content.Split(" ");
+            for (int i = 0; i < splitedWordsInPost.Length; i++)
+            {
+                var scoredWord = new ScoredWord
+                { 
+                    Score = 1,
+                    Word = splitedWordsInPost[i]
+                };
+                if (scoredWord.Word != "" && scoredWord.Word != " ")
+                { 
+                    allWordsScoring.Add(scoredWord);
+                }
+            }
+            
+        }
+
+        var cuttedWordList = allWordsScoring.OrderBy(t => t.Score).Take(10).ToList();
+        for (int i = 0; i < cuttedWordList.Count; i++)
+        {
+            top10Words.Add(cuttedWordList[i].Word); 
+        }
+       
+        
+        return top10Words;
     }
 
     public async Task<List<Post>> GetPostsBySearch(string searchText)

@@ -4,6 +4,7 @@ using Infrastructure;
 using Infrastructure.Contracts;
 using Npgsql;
 using WebApi.Contracts;
+using WebApi.Middlewares;
 using WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,7 +40,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<HttpExceptionMiddleware>();
 app.UseHttpsRedirection();
 app.UseSession();
 app.MapControllers();

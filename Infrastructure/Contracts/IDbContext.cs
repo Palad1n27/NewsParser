@@ -7,6 +7,7 @@ namespace Infrastructure.Contracts;
 public interface IDbContext
 {
     Task<List<Post>> PostNewsAsync(List<Post> newPosts);
+    Task<List<Post>> GetAllPosts();
     Task<List<Post>> GetNewsListByDateAsync(DateTime initial, DateTime final);
     Task<List<string>> GetPopularWordsInNewsAsync();
     Task<List<Post>> GetPostsBySearchAsync(string text);
