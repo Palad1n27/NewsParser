@@ -1,8 +1,7 @@
 using Dapper;
+using Domain.Models.DbModels;
 using Infrastructure.Contracts;
 using Npgsql;
-using WebApi.DDL.DbModels;
-
 namespace Infrastructure;
 
 public class DbContext : IDbContext
@@ -13,26 +12,51 @@ public class DbContext : IDbContext
         _connection = connection;
     }
     
-    public async Task<News> PostNewsAsync(News news)
+    public async Task<List<Post>> PostNewsAsync(List<Post> newPosts)
     {
-        throw new NotImplementedException();
+        
+        string insertQuery = $@"insert into posts(id, name, creation_date, content) 
+                                values(@Id,
+                                       @Name,
+                                       @Creation_Date,
+                                       @Content)";
+
+            foreach (var post in newPosts)
+            {
+                await _connection.ExecuteAsync(insertQuery, new {post.Id, post.Name, Creation_Date = post.CreationDate, post.Content });
+            }
+        
+
+        return newPosts;
     }
 
-    public async Task<IEnumerable<News>> GetNewsListByDate(DateTime initial, DateTime final)
+    public async Task<List<Post>> GetNewsListByDate(DateTime initial, DateTime final)
     {
-        string query = $@"select id, name, creation_date, content from posts
+        string selectQuery = $@"select id, name, creation_date, content from posts
                                         where creation_date >= @Initial and creation_date <= @Final";
 
-        return await _connection.QueryAsync<News>(query, new{Initial = initial, Final = final});
+        return (await _connection.QueryAsync<Post>(selectQuery, new{Initial = initial, Final = final})).ToList();
     }
 
-    public Task<List<string>> GetPopularWordsInNews(string newsName)
+    public async Task<List<string>> GetPopularWordsInNews()
     {
-        throw new NotImplementedException();
+        string selectQuery = $@"select id, name, creation_date, content from posts";
+        var posts =  (await _connection.QueryAsync<Post>(selectQuery)).ToList();
+        var topWords = new List<string>();
+        foreach (var post in posts)
+        {
+            
+            
+        }
+
+        return null;
     }
 
-    public Task<List<News>> GetTopicsByTextSearch(string text)
+    public async Task<List<Post>> GetPostsBySearch(string text)
     {
-        throw new NotImplementedException();
+        string selectQuery = $@"select id, name, creation_date, content from posts";
+
+        return (await _connection.QueryAsync<Post>(selectQuery)).Where(post => post.Content.Contains(text) || post.Name.Contains(text))
+            .ToList();
     }
 }

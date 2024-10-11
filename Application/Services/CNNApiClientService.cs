@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using Application.Contracts;
+using Domain.Models.DbModels;
 using Infrastructure.Contracts;
-using WebApi.DDL.DbModels;
 
 namespace Application.Services;
 
@@ -14,39 +14,40 @@ public class CnnNewsService : IApiNewsService
         _context = context;
     }
 
-    public async Task<List<News>> FetchNewsAsync()
+    public async Task<List<Post>> FetchNewsAsync()
     {
-        string[] themes = { "china", "americans", "asia", "world", "united-kingdom" };
-
-        var theme = themes[new Random().Next(0, 5)];
+        
         var links = await GetPostLinks("https://edition.cnn.com/" + "world");
-        var newsList = new List<News>();
+        var newsList = new List<Post>();
 
         for (var i = 0; i < links.Count; i++)
         {
             var news = await ParseWebPage(links[i]);
+            if(string.IsNullOrEmpty(news.Content))
+                continue;
             newsList.Add(news);
         }
 
+        await _context.PostNewsAsync(newsList);
         return newsList;
     }
 
-    public async Task<IEnumerable<News>> GetNewsByDate(string url, DateTime initialDate, DateTime finalDate)
+    public async Task<List<Post>> GetNewsByDate(DateTime initialDate, DateTime finalDate)
     {
         return await _context.GetNewsListByDate(initialDate,finalDate);
     }
 
-    public List<Task<News>> GetPopularWordsInNews(string url, DateTime initialDate, DateTime finalDate)
+    public Task<List<Post>> GetPopularWordsInNews( )
     {
         throw new NotImplementedException();
     }
 
-    public List<Task<News>> GetNewsByText(string url, string searchText)
+    public async Task<List<Post>> GetPostsBySearch(string searchText)
     {
-        throw new NotImplementedException();
+        return await _context.GetPostsBySearch(searchText);
     }
 
-    public async Task<News> ParseWebPage(string link) 
+    public async Task<Post> ParseWebPage(string link) 
     {
         var responseMessage = await _client.GetAsync("https://edition.cnn.com" + link);
         
@@ -79,11 +80,12 @@ public class CnnNewsService : IApiNewsService
         clearedBody = Regex.Replace(clearedBody, @"\s+", " ").Trim();
         
         
-        return new News
+        return new Post
         {
-            Title = clearedTitle,
+            Id = link,
+            Name = clearedTitle,
             Content = clearedBody,
-            CreationDateTime = creationDate
+            CreationDate = creationDate
         };
     }
 

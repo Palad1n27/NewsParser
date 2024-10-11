@@ -1,15 +1,15 @@
-using WebApi.DDL.DbModels;
+using Domain.Models.DbModels;
 
 namespace Application.Contracts;
 
 public interface IApiNewsService
 {
     Task<List<string>> GetPostLinks(string link);
-    Task<List<News>> FetchNewsAsync();
+    Task<List<Post>> FetchNewsAsync();
 
-    Task<IEnumerable<News>> GetNewsByDate(string url, DateTime initialDate, DateTime finalDate);
+    Task<List<Post>> GetNewsByDate(DateTime initialDate, DateTime finalDate);
     
-    List<Task<News>> GetPopularWordsInNews(string url, DateTime initialDate, DateTime finalDate);
+    Task<List<Post>> GetPopularWordsInNews();
 
-    List<Task<News>> GetNewsByText(string url, string searchText);
+    Task<List<Post>> GetPostsBySearch( string searchText);
 }
