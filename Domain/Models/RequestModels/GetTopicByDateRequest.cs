@@ -1,4 +1,4 @@
-namespace WebApi.Models.RequestModels;
+namespace Domain.Models.RequestModels;
 
 public class GetTopicByDateRequest
 {

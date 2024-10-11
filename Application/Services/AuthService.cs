@@ -27,8 +27,8 @@ public class AuthService : IAuthService
             RefreshTokenCreationDate = TimeProvider.System.GetUtcNow().DateTime,
             RefreshTokenExpirationDate = TimeProvider.System.GetUtcNow().DateTime.AddMinutes(2)
         };
+        await _context.CreateUserAsync(newUser);
         return (newUser.Login, newUser.Role);
-
     }
 
     public async Task<(string login,Role role)> LoginAsync(LoginRequest request)

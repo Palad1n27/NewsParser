@@ -69,15 +69,17 @@ public class DbContext : IDbContext
                                        @Login,
                                        @Password,
                                        @Role,
-                                       @RefreshToken,
-                                       @RefreshTokentCreationDate,
-                                       @RefreshTokenExpirationDate)";
+                                       @Refresh_token,
+                                       @Refresh_token_creation_date,
+                                       @Refresh_token_expiration_date)";
 
         await _connection.ExecuteAsync(insertQuery, 
             new
             {
-                request.Id,request.Login, HashedPassword = request.Password,request.Role,
-                request.RefreshTokenId,request.RefreshTokenCreationDate,request.RefreshTokenExpirationDate
+                request.Id,request.Login,request.Password,request.Role,
+                Refresh_token = request.RefreshTokenId,
+                Refresh_token_creation_date = request.RefreshTokenCreationDate,
+                Refresh_token_expiration_date = request.RefreshTokenExpirationDate
             });
     }
 

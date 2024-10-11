@@ -3,6 +3,8 @@ using Application.Services;
 using Infrastructure;
 using Infrastructure.Contracts;
 using Npgsql;
+using WebApi.Contracts;
+using WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -22,9 +24,11 @@ builder.Services.AddSession(options =>
 
 services.AddScoped<NpgsqlConnection>(_ =>
     new NpgsqlConnection(configuration.GetConnectionString("DefaultConnection")));
+
 services.AddTransient<IApiNewsService, CnnNewsService>();
 services.AddTransient<IAuthService, AuthService>();
 services.AddTransient<IDbContext, DbContext>();
+services.AddTransient<ITokenProvider, TokenProvider>();
 
 services.AddControllers();
 var app = builder.Build();

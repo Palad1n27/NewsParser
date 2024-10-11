@@ -1,11 +1,12 @@
 using Domain.Models.DbModels;
 using Infrastructure.Contracts;
 using Infrastructure.Models;
+using WebApi.Contracts;
 using WebApi.CustomExceptions;
 
-namespace WebApi;
+namespace WebApi.Services;
 
-public class TokenProvider
+public class TokenProvider : ITokenProvider
 {
     private readonly IDbContext _dbContext;
 
@@ -16,10 +17,6 @@ public class TokenProvider
 
     public async Task<string> GenerateAccessToken(string userLogin, Role role)
     {
-        var refreshToken = await _dbContext.GetUserRefreshTokenAsync(userLogin);
-        if (refreshToken!.CreationDate < TimeProvider.System.GetUtcNow().DateTime)
-            throw new TokenExpiredException();
-        
         return new AccessToken
         {
             Id = Guid.NewGuid(),
@@ -31,11 +28,10 @@ public class TokenProvider
 
     public async Task<bool> CheckAccessToken(string accessToken)
     {
-        string dateString = accessToken.Substring(2, 5); 
-        bool isParsed = DateTime.TryParse(dateString, out DateTime creationDate);
-
-        if (!isParsed || creationDate < TimeProvider.System.GetUtcNow().DateTime)
-            return false;
+        RefreshTokenRequest token;
+        if (accessToken is null)
+            throw new Exception("Unauthorized");
+        
         return true;
     }
 
