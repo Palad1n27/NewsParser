@@ -36,7 +36,7 @@ public class AuthService : IAuthService
     public async Task<(string login,Role role)> LoginAsync(LoginRequest request)
     {
         var userCredentials = await _context.GetUserCredentials(request.Login);
-        if (_passwordHasher.Verify(userCredentials.password, request.Password))
+        if (_passwordHasher.Verify(request.Password, userCredentials.password))
             return (request.Login, userCredentials.role);
         
         throw new Exception("Password is incorrect");

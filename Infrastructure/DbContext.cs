@@ -31,6 +31,13 @@ public class DbContext : IDbContext
         return newPosts;
     }
 
+    public async Task<List<Post>> GetAllPosts()
+    {
+        string selectQuery = $@"select id, name, creation_date, content from posts";
+
+        return (await _connection.QueryAsync<Post>(selectQuery)).ToList();
+    }
+
     public async Task<List<Post>> GetNewsListByDateAsync(DateTime initial, DateTime final)
     {
         string selectQuery = $@"select id, name, creation_date, content from posts

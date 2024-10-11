@@ -9,7 +9,7 @@ public interface IApiNewsService
 
     Task<List<Post>> GetNewsByDate(DateTime initialDate, DateTime finalDate);
     
-    Task<List<Post>> GetPopularWordsInNews();
+    Task<List<string>> GetPopularWordsInNews();
 
     Task<List<Post>> GetPostsBySearch( string searchText);
 }
