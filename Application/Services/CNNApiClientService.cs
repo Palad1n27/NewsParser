@@ -65,7 +65,7 @@ public class CnnNewsService : IApiNewsService
             : string.Empty;
 
         clearedTitle = clearedTitle.Replace("|CNN", "").Trim();
-
+        clearedTitle = Regex.Replace(clearedTitle, @"&nbsp;", " ");
         var bodyMatches = Regex.Matches(html, bodyPattern, RegexOptions.Singleline);
         var results = new List<string>();
 
@@ -77,6 +77,8 @@ public class CnnNewsService : IApiNewsService
 
         var clearedBody = string.Join(" ", results);
         clearedBody = Regex.Replace(clearedBody, @"^CNN\s*&nbsp;&mdash;&nbsp;", string.Empty);
+        clearedBody = Regex.Replace(clearedBody, @"&nbsp;", " ");
+        clearedBody = Regex.Replace(clearedBody, @"&mdash;", "—");
         clearedBody = Regex.Replace(clearedBody, @"\s+", " ").Trim();
         
         
