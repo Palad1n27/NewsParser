@@ -1,3 +1,4 @@
+using System.Globalization;
 using Dapper;
 using Domain.Models.DbModels;
 using Infrastructure.Contracts;
@@ -37,42 +38,28 @@ public class DbContext : IDbContext
             }
         }
         
-
         return newPosts;
     }
 
     public async Task<List<Post>> GetAllPosts()
     {
-        string selectQuery = $@"select id, name, creation_date, content from posts";
+        string selectQuery = $@"select id, name, creationdate, content from posts";
 
         return (await _connection.QueryAsync<Post>(selectQuery)).ToList();
     }
 
     public async Task<List<Post>> GetNewsListByDateAsync(DateTime initial, DateTime final)
     {
-        string selectQuery = $@"select id, name, creation_date, content from posts
-                                        where creation_date >= @Initial and creation_date <= @Final";
+        string selectQuery = $@"select id, name, content, creationdate from posts
+                                        where creationdate >= @Initial and creationdate <= @Final";
 
         return (await _connection.QueryAsync<Post>(selectQuery, new{Initial = initial, Final = final})).ToList();
     }
-
-    public async Task<List<string>> GetPopularWordsInNewsAsync()
-    {
-        string selectQuery = $@"select id, name, creation_date, content from posts";
-        var posts =  (await _connection.QueryAsync<Post>(selectQuery)).ToList();
-        var topWords = new List<string>();
-        foreach (var post in posts)
-        {
-            
-            
-        }
-
-        return null;
-    }
+    
 
     public async Task<List<Post>> GetPostsBySearchAsync(string text)
     {
-        string selectQuery = $@"select id, name, creation_date, content from posts";
+        string selectQuery = $@"select id, name, creationdate, content from posts";
 
         return (await _connection.QueryAsync<Post>(selectQuery)).Where(post => post.Content.Contains(text) || post.Name.Contains(text))
             .ToList();
