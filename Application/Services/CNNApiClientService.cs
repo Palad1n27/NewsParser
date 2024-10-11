@@ -34,7 +34,7 @@ public class CnnNewsService : IApiNewsService
 
     public async Task<List<Post>> GetNewsByDate(DateTime initialDate, DateTime finalDate)
     {
-        return await _context.GetNewsListByDate(initialDate,finalDate);
+        return await _context.GetNewsListByDateAsync(initialDate,finalDate);
     }
 
     public Task<List<Post>> GetPopularWordsInNews( )
@@ -44,7 +44,7 @@ public class CnnNewsService : IApiNewsService
 
     public async Task<List<Post>> GetPostsBySearch(string searchText)
     {
-        return await _context.GetPostsBySearch(searchText);
+        return await _context.GetPostsBySearchAsync(searchText);
     }
 
     public async Task<Post> ParseWebPage(string link) 
