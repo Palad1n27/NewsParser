@@ -2,7 +2,6 @@ using Application.Contracts;
 using Domain.Models.DbModels;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Contracts;
-using WebApi.Services;
 
 namespace WebApi.Controllers;
 

@@ -43,6 +43,7 @@ public class NewsApplicationTests
         
         //Assert
         Assert.Equal(30,news.Count);
+        
     }
 
     [Fact]

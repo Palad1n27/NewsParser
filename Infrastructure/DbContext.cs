@@ -22,10 +22,20 @@ public class DbContext : IDbContext
                                        @Creation_Date,
                                        @Content)";
 
-            foreach (var post in newPosts)
+        foreach (var post in newPosts) 
+        {
+            try
             {
-                await _connection.ExecuteAsync(insertQuery, new {post.Id, post.Name, Creation_Date = post.CreationDate, post.Content });
+
+                await _connection.ExecuteAsync(insertQuery,
+                    new { post.Id, post.Name, Creation_Date = post.CreationDate, post.Content });
+
             }
+            catch (Exception e)
+            {
+                continue;
+            }
+        }
         
 
         return newPosts;

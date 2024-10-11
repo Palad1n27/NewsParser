@@ -45,8 +45,10 @@ public class CnnNewsService : IApiNewsService
         var top10Words = new List<string>();
         var symbols = new List<string>
         {
-            ",", ".", "/", "!", "#", "{", "}", "(", ")", "_", "-", "—", ";", ":"
+            ",", ".", "/", "!", "#", "{", "}", "(", ")", "_", "-", "—", ";", ":","”"
         };
+        var allNotAppropriateWords = NotAppropriateWords;
+        
         foreach (var post in posts)
         {
             var content = post.Content;
@@ -62,22 +64,28 @@ public class CnnNewsService : IApiNewsService
                 var scoredWord = new ScoredWord
                 { 
                     Score = 1,
-                    Word = splitedWordsInPost[i]
+                    Word = splitedWordsInPost[i].ToLower().Trim()
                 };
-                if (scoredWord.Word != "" && scoredWord.Word != " ")
+                if (!allNotAppropriateWords.Contains(scoredWord.Word))
                 { 
                     allWordsScoring.Add(scoredWord);
                 }
             }
             
         }
-
-        var cuttedWordList = allWordsScoring.OrderBy(t => t.Score).Take(10).ToList();
-        for (int i = 0; i < cuttedWordList.Count; i++)
+        var scoredWords = allWordsScoring
+            .GroupBy(x => x.Word)
+            .Select(g => new 
+            {
+                Word = g.Key,      
+                Score = g.Count()  
+            }).OrderByDescending(w => w.Score).Take(10)
+            .ToList();  
+        
+        for (int i = 0; i < scoredWords.Count; i++)
         {
-            top10Words.Add(cuttedWordList[i].Word); 
+            top10Words.Add(scoredWords[i].Word); 
         }
-       
         
         return top10Words;
     }
@@ -155,4 +163,33 @@ public class CnnNewsService : IApiNewsService
 
         return extractedLinks;
     }
+
+    private List<string> NotAppropriateWords => new List<string>{ "about", "above", "across", "after", "against", "along", "among", "around", 
+            "at", "before", "behind", "below", "beneath", "beside", "between", "beyond", 
+            "by", "despite", "during", "except", "for", "from", "in", "inside", "into", 
+            "like", "near", "of", "off", "on", "onto", "out", "outside", "over", 
+            "through", "to", "toward", "under", "until", "up", "with", "without",
+            "a", "an", "the", "and", "but", "or", "nor", "for", "so", "yet",
+            "to", "in", "of", "on", "at", "by", "with", "as", "from", "about",
+            "into", "during", "before", "after", "above", "below", "between",
+            "among", "without", "like", "up", "down", "near", "along", "through",
+            "except", "despite", "whether", "if", "that", "who", "whom", "whose",
+            "which", "what", "when", "where", "how", "why", "just", "only", 
+            "also", "even", "still", "yet", "both", "each", "every", "some",
+            "any", "no", "few", "more", "most", "several", "many", "much", 
+            "such", "very", "too", "rather", "quite", "almost", "nearly",
+            "although", "though", "while", "whereas", "if", "unless", "until", 
+            "when", "as", "because", "since", "before", "after", "while", 
+            "whether", "both", "either", "neither", 
+            "I", "me", "you", "your", "yours", "he", "him", "his", "she", "her", 
+            "hers", "it", "its", "we", "us", "our", "ours", "they", "them", 
+            "their", "theirs", "who", "whom", "whose", "this", "that", "these", 
+            "those", "one", "another", "anyone", "someone", "everyone", "no one", 
+            "anybody", "somebody", "everybody", "nobody", "anything", "something", 
+            "everything", "nothing", "was", "is", "has", "were", "have", "are", "be", 
+            "been", "being", "am", "not", "do", "does", "did", "doing", 
+            "there", "here", "my", "mine", "can", "could", "shall", "should", 
+            "will", "would", "may", "might", "must", "said", "told", "tell", 
+            "says", "saying","","according","had","cnn","other"};
+
 }
