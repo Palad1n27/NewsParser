@@ -9,10 +9,12 @@ namespace Application.Services;
 public class AuthService : IAuthService
 {
     private readonly IDbContext _context;
+    private readonly IPasswordHasher _passwordHasher;
 
-    public AuthService(IDbContext context)
+    public AuthService(IDbContext context, IPasswordHasher passwordHasher)
     {
         _context = context;
+        _passwordHasher = passwordHasher;
     }
 
     public async Task<(string login, Role role)> RegisterAsync(RegisterRequest request)
@@ -21,7 +23,7 @@ public class AuthService : IAuthService
         {
             Id = Guid.NewGuid(),
             Login = request.Login,
-            Password = PasswordHasher.Generate(request.Password),
+            Password = _passwordHasher.Generate(request.Password),
             Role = request.Role,
             RefreshTokenId = Guid.NewGuid(),
             RefreshTokenCreationDate = TimeProvider.System.GetUtcNow().DateTime,
@@ -34,7 +36,7 @@ public class AuthService : IAuthService
     public async Task<(string login,Role role)> LoginAsync(LoginRequest request)
     {
         var userCredentials = await _context.GetUserCredentials(request.Login);
-        if (PasswordHasher.Verify(userCredentials.password, request.Password))
+        if (_passwordHasher.Verify(userCredentials.password, request.Password))
             return (request.Login, userCredentials.role);
         
         throw new Exception("Password is incorrect");

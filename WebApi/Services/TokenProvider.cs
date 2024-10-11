@@ -2,7 +2,6 @@ using Domain.Models.DbModels;
 using Infrastructure.Contracts;
 using Infrastructure.Models;
 using WebApi.Contracts;
-using WebApi.CustomExceptions;
 
 namespace WebApi.Services;
 
@@ -17,18 +16,18 @@ public class TokenProvider : ITokenProvider
 
     public async Task<string> GenerateAccessToken(string userLogin, Role role)
     {
-        return new AccessToken
+        var accessToken = new AccessToken
         {
+            Role = role,
             Id = Guid.NewGuid(),
             UserLogin = userLogin,
-            Role = role,
             CreationDate = TimeProvider.System.GetUtcNow().DateTime
-        }.ToString()!;
+        };
+        return $"{accessToken.Role}{accessToken.Id}{accessToken.UserLogin}{accessToken.CreationDate}";
     }
 
     public async Task<bool> CheckAccessToken(string accessToken)
     {
-        RefreshTokenRequest token;
         if (accessToken is null)
             throw new Exception("Unauthorized");
         

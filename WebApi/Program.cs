@@ -29,6 +29,7 @@ services.AddTransient<IApiNewsService, CnnNewsService>();
 services.AddTransient<IAuthService, AuthService>();
 services.AddTransient<IDbContext, DbContext>();
 services.AddTransient<ITokenProvider, TokenProvider>();
+services.AddTransient<IPasswordHasher, PasswordHasher>();
 
 services.AddControllers();
 var app = builder.Build();
